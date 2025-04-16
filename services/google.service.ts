@@ -30,7 +30,7 @@ export const generateSpeechToText = async (audio: Buffer) => {
       languageCode: "en-US",
       enableAutomaticPunctuation: true,
       model: "latest_long",
-      alternativeLanguageCodes: ["hi-IN"],
+      alternativeLanguageCodes: ["en-IN"],
       useEnhanced: true,
     },
   });
