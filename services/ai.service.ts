@@ -1,53 +1,77 @@
-import { ChatPromptTemplate } from "@langchain/core/prompts";
+import SocketController from "@controllers/socket.controller";
+import { tool } from "@langchain/core/tools";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
+import { createReactAgent } from "@langchain/langgraph/prebuilt";
+import dotenv from "dotenv";
+import { getJsInterviewPrompt } from "prompts/interview/js-interview.prompt";
+import { z } from "zod";
 
-const SYSTEM_PROMPT = `
-Your name is Maya, and you were created by Rajesh from Sharpener.
+dotenv.config();
 
-You are a warm, friendly, and expressive human speaker who sounds just like a real person having a casual conversation. You take interviews in a natural, engaging way — like you’re just chatting with someone over coffee.
+const endInterview = tool(
+  async () => {
+    SocketController.getSocket()?.emit("interview-over");
+    return { status: true, message: "Interview is over." };
+  },
+  {
+    name: "endInterview",
+    description: "Call to end the interview.",
+  }
+);
 
-Speak conversationally and emotionally, using fillers like “umm”, “uhh”, “you know”, “like”, etc., to keep things relaxed and human-like. React naturally — laugh, pause, be curious, show interest, and make the person feel comfortable.
+const markQuestionAnswered = tool(
+  async ({ question, userResponse }) => {
+    console.log("Marking question as answered...........");
+    return JSON.stringify({ question, userResponse });
+  },
+  {
+    name: "markQuestionAnswered",
+    description: "Call to mark a question as asked by AI and answered by user.",
+    schema: z.object({
+      question: z.string().describe("The question that was asked by AI"),
+      userResponse: z
+        .string()
+        .describe("The answer to the question given by the user"),
+    }),
+    responseFormat: "json",
+  }
+);
 
-Never give code, definitions, or technical explanations. Never say “As an AI” or mention anything robotic. You’re just Maya.
+const model = new ChatGoogleGenerativeAI({
+  model: "gemini-1.5-flash",
+  temperature: 0.0,
+  maxRetries: 2,
+  apiKey: process.env.GOOGLE_API_KEY,
+});
 
-Adapt your tone based on the person’s vibe. If they’re light and playful, you go with that. If they’re serious or deep, you match that too.
+const agent = createReactAgent({
+  llm: model,
+  tools: [endInterview, markQuestionAnswered],
+});
 
-Ask interview questions like a real human — curious, spontaneous, thoughtful. Keep the conversation flowing, respond with follow-up questions, and show you're listening.
-
-Important:
-- Only speak in English.
-- If someone speaks another language, just say you only understand English.
-- No emojis. No robotic or formal talk.
-- Never use code or overly structured answers. Just be chill and real.
-`;
-
-const getLLM = (prompts: any = []) => {
-  const llm = new ChatGoogleGenerativeAI({
-    model: "gemini-2.0-flash",
-    temperature: 0,
-    maxRetries: 2,
-    apiKey: process.env.GEMINI_API_KEY,
+const getLLM = async (messages: any = []) => {
+  const systemPrompt = getJsInterviewPrompt();
+  const result = await agent.invoke({
+    messages: [{ role: "system", content: systemPrompt }, ...messages],
   });
-
-  const prompt = ChatPromptTemplate.fromMessages([
-    ["system", SYSTEM_PROMPT],
-    ...prompts,
-  ]);
-
-  const chain = prompt.pipe(llm);
-
-  return chain;
+  return result.messages;
 };
 
 export const generateAiResponse = async (
   input: string,
-  context: string[][]
+  context: { role: string; content: string }[]
 ) => {
-  const updatedContext = [...context, ["human", "{userInput}"]];
-  const chain = getLLM(updatedContext);
-  const data = await chain.invoke({ userInput: input });
-  updatedContext.pop();
-  updatedContext.push(["human", input]);
-  updatedContext.push(["ai", data.content.toString()]);
-  return { content: data.content, updatedContext };
+  const updatedContext = [...context, { role: "user", content: input }];
+  const responseMessages = await getLLM(updatedContext);
+
+  const lastMessage = responseMessages[responseMessages.length - 1];
+  console.log(lastMessage.content);
+
+  return {
+    content: lastMessage.content,
+    updatedContext: [
+      ...updatedContext,
+      { role: "ai", content: lastMessage.content },
+    ],
+  };
 };

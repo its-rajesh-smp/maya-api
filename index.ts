@@ -12,6 +12,7 @@ const io = new Server(server, {
   cors: {
     origin: "*",
   },
+  maxHttpBufferSize: 5 * 1024 * 1024, // 5 MB,
 });
 
 app.use(

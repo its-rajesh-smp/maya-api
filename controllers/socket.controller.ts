@@ -7,6 +7,7 @@ import { Socket } from "socket.io";
 
 class SocketController {
   socket: Socket;
+  static gSocket: Socket;
 
   constructor(_socket: Socket) {
     this.socket = _socket;
@@ -15,6 +16,11 @@ class SocketController {
   initialize() {
     this.socket.on("start", this.onStart);
     this.socket.on("userAudioInput", this.onUserAudioInput);
+    this.socket.on("userTextInput", this.onTextMessage);
+  }
+
+  static getSocket() {
+    return SocketController.gSocket;
   }
 
   onStart = async (data: any) => {
@@ -40,6 +46,15 @@ class SocketController {
     this.socket.emit("save-context", updatedContext);
     const audio = await generateTextToSpeech(content.toString());
     this.socket.emit("voice", audio);
+  };
+
+  onTextMessage = async (data: any) => {
+    const { context, message } = data;
+    const { content, updatedContext } = await generateAiResponse(
+      message,
+      context
+    );
+    this.socket.emit("save-context", updatedContext);
   };
 }
 

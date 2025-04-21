@@ -13,11 +13,16 @@
     "@google-cloud/speech": "^7.0.1",
     "@google-cloud/text-to-speech": "^6.0.1",
     "@google/generative-ai": "^0.24.0",
+    "@langchain/core": "^0.3.45",
     "@langchain/google-genai": "^0.2.3",
+    "@langchain/langgraph": "^0.2.64",
+    "@langchain/langgraph-checkpoint": "^0.0.17",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "uuid": "^11.1.0",
+    "zod": "^3.24.3"
   },
   "devDependencies": {
     "@types/express": "^5.0.1",

@@ -1,13 +1,14 @@
-import textToSpeech from "@google-cloud/text-to-speech";
 import speechToText from "@google-cloud/speech";
+import textToSpeech from "@google-cloud/text-to-speech";
+import { savePcmAsWav } from "utils/audio.util";
 
 export const generateTextToSpeech = async (text: string) => {
   const ttsClient = new textToSpeech.v1.TextToSpeechClient();
   const [response] = await ttsClient.synthesizeSpeech({
     input: { text },
     voice: {
-      languageCode: "hi-IN",
-      name: "hi-IN-Chirp3-HD-Aoede",
+      languageCode: "en-US",
+      name: "en-US-Chirp3-HD-Achernar",
     },
     audioConfig: {
       audioEncoding: "MP3",
@@ -20,6 +21,7 @@ export const generateTextToSpeech = async (text: string) => {
 };
 
 export const generateSpeechToText = async (audio: Buffer) => {
+  savePcmAsWav(audio, "test.wav");
   const speechClient = new speechToText.v1.SpeechClient();
 
   const response = await speechClient.recognize({
@@ -29,12 +31,10 @@ export const generateSpeechToText = async (audio: Buffer) => {
       sampleRateHertz: 16000,
       languageCode: "en-US",
       enableAutomaticPunctuation: true,
-      model: "latest_long",
-      alternativeLanguageCodes: ["en-IN"],
+      alternativeLanguageCodes: [],
       useEnhanced: true,
     },
   });
-
   const result =
     response[0]?.results?.[0]?.alternatives?.[0]?.transcript ?? null;
   console.log(result);
