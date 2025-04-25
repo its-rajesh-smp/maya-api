@@ -4,6 +4,7 @@ import {
   generateTextToSpeech,
 } from "@services/google.service";
 import { Socket } from "socket.io";
+import { generateConversationTranscript } from "utils/generateContextFromMessages.util";
 
 class SocketController {
   socket: Socket;
@@ -25,36 +26,47 @@ class SocketController {
 
   onStart = async (data: any) => {
     const { context } = data;
-    this.socket.emit("status", "thinking");
+    this.socket.emit("status", "ai-thinking");
     const { content, updatedContext } = await generateAiResponse(
       "Hello",
       context
     );
     this.socket.emit("save-context", updatedContext);
-    const audio = await generateTextToSpeech(content.toString());
-    this.socket.emit("voice", audio);
+
+    // Get the audio stream
+    const audioStream = await generateTextToSpeech(content.toString());
+
+    // Pipe the stream to the client
+    audioStream.on("data", (chunk) => {
+      this.socket.emit("status", "ai-speaking");
+      this.socket.emit("voice-chunk", chunk);
+    });
   };
 
   onUserAudioInput = async (userInput: Buffer, data: any) => {
     const { context } = data;
-    this.socket.emit("status", "thinking");
+    this.socket.emit("status", "ai-thinking");
     const text = await generateSpeechToText(userInput);
+
     if (!text) {
       return;
     }
     const { content, updatedContext } = await generateAiResponse(text, context);
     this.socket.emit("save-context", updatedContext);
-    const audio = await generateTextToSpeech(content.toString());
-    this.socket.emit("voice", audio);
+
+    // Get the audio stream
+    const audioStream = await generateTextToSpeech(content.toString());
+
+    // Pipe the stream to the client
+    audioStream.on("data", (chunk) => {
+      this.socket.emit("status", "ai-speaking");
+      this.socket.emit("voice-chunk", chunk);
+    });
   };
 
   onTextMessage = async (data: any) => {
     const { context, message } = data;
-    const { content, updatedContext } = await generateAiResponse(
-      message,
-      context
-    );
-    this.socket.emit("save-context", updatedContext);
+    generateConversationTranscript(JSON.parse(context));
   };
 }
 

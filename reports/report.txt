@@ -1,0 +1,97 @@
+
+Input Token  : 898, Output Token : 22
+Text To Speech Bill : 67 character
+Speech To Text Bill : 3 second
+Input Token  : 930, Output Token : 30
+Text To Speech Bill : 102 character
+Speech To Text Bill : 8 second
+Input Token  : 978, Output Token : 28
+Text To Speech Bill : 137 character
+Speech To Text Bill : 28 second
+Input Token  : 1250, Output Token : 9
+Text To Speech Bill : 42 character
+Speech To Text Bill : 17 second
+Input Token  : 1422, Output Token : 10
+Text To Speech Bill : 33 character
+Speech To Text Bill : 2 second
+Input Token  : 1438, Output Token : 17
+Text To Speech Bill : 69 character
+Speech To Text Bill : 45 second
+Input Token  : 1810, Output Token : 7
+Text To Speech Bill : 37 character
+Speech To Text Bill : 3 second
+Input Token  : 1825, Output Token : 11
+Text To Speech Bill : 50 character
+Speech To Text Bill : 10 second
+Input Token  : 1958, Output Token : 12
+Text To Speech Bill : 46 character
+Speech To Text Bill : 22 second
+Input Token  : 2189, Output Token : 42
+Text To Speech Bill : 168 character
+Speech To Text Bill : 7 second
+Input Token  : 2262, Output Token : 112
+Text To Speech Bill : 618 character
+Speech To Text Bill : 2 second
+Input Token  : 2408, Output Token : 40
+Text To Speech Bill : 170 character
+
+
+
+
+
+CONVERSATION TRANSCRIPT
+HUMAN --> Hello
+AI --> Hi there! How's your day going? My name is Maya. What's your name?
+
+HUMAN --> Hey, Maya. My name is rajes.
+AI --> Okay, Rajesh, it's nice to meet you. Let's start the interview. What is DSA? And why is it important?
+
+HUMAN --> DSA stands for data structures and algorithm and it helped us to improve our problem solving skills.
+AI --> Got it! Can you give me a more detailed explanation of what data structures and algorithms are and an example of why they are important?
+
+HUMAN --> So data structures and more like, uh, how we are structuring our data and algorithms means how to, uh, work with those data. For example, we have a, uh, like data of users, like, multiple users. So we can use the array data structures. And, uh, like to perform a sorting in between them, like, sorting based on their age. We can use like sort, uh, sorting algorithms to do that.
+AI --> [{"functionCall":{"name":"markQuestionAnswered","args":{"question":"What is DSA? And why is it important?","userResponse":"So data structures and more like, uh, how we are structuring our data and algorithms means how to, uh, work with those data. For example, we have a, uh, like data of users, like, multiple users. So we can use the array data structures. And, uh, like to perform a sorting in between them, like, sorting based on their age. We can use like sort, uh, sorting algorithms to do that."}}}]
+AI --> Good! Explain variables with an example.
+
+
+HUMAN --> So variables are like containers in JavaScript. Now we can create a variables by using late V and con keyword. Now to create a variable, we can write something like this, let a equal to 10 or maybe let the user equal to a user object.
+AI --> [{"functionCall":{"name":"markQuestionAnswered","args":{"question":"Explain variables with an example","userResponse":"So variables are like containers in JavaScript. Now we can create a variables by using late V and con keyword. Now to create a variable, we can write something like this, let a equal to 10 or maybe let the user equal to a user object."}}}]
+AI --> Good! How do loops work? Types?
+
+
+HUMAN --> Can you repeat the question?
+AI --> Sure. How do loops work, and what are the different types of loops?
+
+
+HUMAN --> Okay. So in JavaScript, there are mainly 2 type of Loops, I know, 1 is for Loop and another 1 is while loop. Now both the loop will work in some certain condition for Loop actually runs from a single number to maybe some uh, another Point like for a point to another point. Now to write this syntax it, it is like for let I equal to zero then the condition and then the increment value and inside that like loop I can just write maybe consider to log user or consider, log number, whatever I want. And if I want to use while loop like it will be like while then condition and then we have to pass some sort of code like that we want to run on each iteration.
+AI --> [{"functionCall":{"name":"markQuestionAnswered","args":{"userResponse":"Okay. So in JavaScript, there are mainly 2 type of Loops, I know, 1 is for Loop and another 1 is while loop. Now both the loop will work in some certain condition for Loop actually runs from a single number to maybe some uh, another Point like for a point to another point. Now to write this syntax it, it is like for let I equal to zero then the condition and then the increment value and inside that like loop I can just write maybe consider to log user or consider, log number, whatever I want. And if I want to use while loop like it will be like while then condition and then we have to pass some sort of code like that we want to run on each iteration.","question":"How do loops work? Types?"}}}]
+AI --> Good. Demonstrate printing output.
+
+
+
+HUMAN --> Sorry, can you say it again?
+AI --> Sure. Can you demonstrate how to print output?
+
+
+
+
+HUMAN --> Okay. So I uh only know in JavaScript that will be uh something like this console.log and inside that whatever I want to print, I can use that.
+AI --> [{"functionCall":{"name":"markQuestionAnswered","args":{"userResponse":"Okay. So I uh only know in JavaScript that will be uh something like this console.log and inside that whatever I want to print, I can use that.","question":"Demonstrate printing output"}}}]
+AI --> Good. What are functions? How to use them?
+
+
+
+
+HUMAN --> So functions are like, uh, a piece of code that can, uh, run whenever you want. Uh, for example, I have, uh, a codebase where I am doing multiple some operation in multiple places. Now, instead of writing the same function, same piece of code again. And again, we can create a function and we can invoke that function on where we want.
+AI --> [{"functionCall":{"name":"markQuestionAnswered","args":{"userResponse":"So functions are like, uh, a piece of code that can, uh, run whenever you want. Uh, for example, I have, uh, a codebase where I am doing multiple some operation in multiple places. Now, instead of writing the same function, same piece of code again. And again, we can create a function and we can invoke that function on where we want.","question":"What are functions? How to use them?"}}}]
+AI --> Good.  It looks like we've covered all the questions I had for you today. Do you have any questions for me, or anything else you'd like to discuss before we wrap up?
+
+
+
+HUMAN --> No, actually I don't have much uh, things to do. Uh can you give me some sort of feedback like where I can improve and all
+AI --> I think you have a good grasp of the basic concepts, but providing more concrete examples and explaining the underlying mechanisms in more detail would strengthen your responses.  For instance, when discussing loops, you could have elaborated on the specific syntax and how the conditions are evaluated in each iteration.  Similarly, for functions, illustrating with a simple code snippet would have showcased your understanding more effectively.  Keep practicing and focusing on clarifying these details, and you'll be well on your way to mastering these concepts! Is there anything else I can assist you with today?
+
+HUMAN --> No, I think it's fine.
+AI --> [{"functionCall":{"name":"endInterview","args":{}}}]
+AI --> Okay, Rajesh. It was a pleasure talking to you today. Best of luck with your job search, and feel free to reach out if you have any further questions. Have a great day!
+
